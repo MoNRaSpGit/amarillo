@@ -1,10 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 const ScannerComponent = () => {
   const videoRef = useRef(null);
   const [scanningMessage, setScanningMessage] = useState('No se está escaneando');
   const [isScanning, setIsScanning] = useState(false);
-  const scannerTimeout = useRef(null);
 
   const startCamera = async () => {
     try {
@@ -19,17 +18,23 @@ const ScannerComponent = () => {
   const startScanning = () => {
     setScanningMessage('Escaneando...');
     setIsScanning(true);
-
-    scannerTimeout.current = setTimeout(() => {
-      setScanningMessage('No se encontró ningún código de barras');
-      setIsScanning(false);
-    }, 5000); // Aquí puedes ajustar el tiempo límite de escaneo en milisegundos
   };
+
+  useEffect(() => {
+    let scannerTimeout;
+    if (isScanning) {
+      scannerTimeout = setTimeout(() => {
+        setScanningMessage('No se encontró ningún código de barras');
+        setIsScanning(false);
+      }, 3000); // Cambiado a 3 segundos
+    }
+
+    return () => clearTimeout(scannerTimeout);
+  }, [isScanning]);
 
   const stopScanning = () => {
     setScanningMessage('No se está escaneando');
     setIsScanning(false);
-    clearTimeout(scannerTimeout.current);
   };
 
   return (
