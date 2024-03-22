@@ -1,34 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Quagga from 'quagga'; // Importa la biblioteca de escaneo de códigos de barras
+import React, { useRef, useState } from 'react';
 
-const CameraComponent = () => {
+const ScannerComponent = () => {
   const videoRef = useRef(null);
-  const [scannedResult, setScannedResult] = useState('');
-  const [scanningMessage, setScanningMessage] = useState('No se ha escaneado ningún código de barras');
-
-  useEffect(() => {
-    Quagga.init({
-      inputStream: {
-        name: "Live",
-        type: "LiveStream",
-        target: videoRef.current
-      },
-      decoder: {
-        readers: ["code_128_reader", "ean_reader"] // Especifica los tipos de código de barras que deseas escanear
-      },
-      locate: true
-    }, function (err) {
-      if (err) {
-        console.error('Quagga initialization error:', err);
-        return;
-      }
-      console.log('Quagga initialization finished. Ready to start scanning.');
-    });
-
-    return () => {
-      Quagga.stop();
-    };
-  }, []);
+  const [scanningMessage, setScanningMessage] = useState('No se está escaneando');
+  const [isScanning, setIsScanning] = useState(false);
 
   const startCamera = async () => {
     try {
@@ -42,28 +17,30 @@ const CameraComponent = () => {
 
   const startScanning = () => {
     setScanningMessage('Escaneando...');
-    Quagga.start();
+    setIsScanning(true);
+    // Lógica para iniciar el escaneo
+    // Por ejemplo, puedes utilizar la biblioteca de escaneo de códigos de barras aquí
   };
 
-  Quagga.onDetected(data => {
-    console.log('Barcode detected:', data.codeResult.code);
-    setScannedResult(data.codeResult.code);
-    setScanningMessage('Código de barras escaneado con éxito');
-    Quagga.stop();
-  });
+  const stopScanning = () => {
+    setScanningMessage('No se está escaneando');
+    setIsScanning(false);
+    // Lógica para detener el escaneo
+  };
 
   return (
     <div>
-      <h1>Componente de Cámara</h1>
+      <h1>Scanner Component</h1>
       <div style={{ width: '100%', height: '300px', border: '1px solid black', position: 'relative' }}>
         <video ref={videoRef} autoPlay playsInline style={{ position: 'absolute', width: '100%', height: '100%' }} />
       </div>
-      <button onClick={startCamera}>Iniciar cámara</button>
-      <button onClick={startScanning}>Iniciar escaneo</button>
+      <button onClick={startCamera}>Abrir cámara</button>
+      <button onClick={isScanning ? stopScanning : startScanning}>
+        {isScanning ? 'Detener escaneo' : 'Iniciar escaneo'}
+      </button>
       <p>{scanningMessage}</p>
-      {scannedResult && <p>Resultado escaneado: {scannedResult}</p>}
     </div>
   );
 };
 
-export default CameraComponent;
+export default ScannerComponent;
