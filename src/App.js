@@ -7,7 +7,7 @@ const ScannerComponent = () => {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
       videoRef.current.srcObject = stream;
       videoRef.current.play();
     } catch (error) {
@@ -34,7 +34,7 @@ const ScannerComponent = () => {
       <div style={{ width: '100%', height: '300px', border: '1px solid black', position: 'relative' }}>
         <video ref={videoRef} autoPlay playsInline style={{ position: 'absolute', width: '100%', height: '100%' }} />
       </div>
-      <button onClick={startCamera}>Abrir cámara</button>
+      <button onClick={startCamera}>Abrir cámara trasera</button>
       <button onClick={isScanning ? stopScanning : startScanning}>
         {isScanning ? 'Detener escaneo' : 'Iniciar escaneo'}
       </button>
