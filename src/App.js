@@ -16,7 +16,7 @@ const BarcodeScanner = () => {
       decoder: {
         readers: ["ean_reader"] // Especifica el tipo de código de barras que deseas escanear
       }
-    }, function(err) {
+    }, function (err) {
       if (err) {
         console.error(err);
         return;
@@ -35,9 +35,11 @@ const BarcodeScanner = () => {
   return (
     <div>
       <h1>Barcode Scannerrrrrrr</h1>
-      <video ref={videoRef} />
       <button onClick={startScanner}>Start Scanning</button>
       <p>Scanned Result: {scannedResult}</p>
+      <div style={{ width: '100%', height: '300px', border: '1px solid black' }}>
+        <video ref={videoRef} style={{ width: '100%', height: '100%' }} />
+      </div>
     </div>
   );
 };
