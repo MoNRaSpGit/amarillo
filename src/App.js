@@ -4,6 +4,7 @@ const ScannerComponent = () => {
   const videoRef = useRef(null);
   const [scanningMessage, setScanningMessage] = useState('No se está escaneando');
   const [isScanning, setIsScanning] = useState(false);
+  const scannerTimeout = useRef(null);
 
   const startCamera = async () => {
     try {
@@ -18,14 +19,17 @@ const ScannerComponent = () => {
   const startScanning = () => {
     setScanningMessage('Escaneando...');
     setIsScanning(true);
-    // Lógica para iniciar el escaneo
-    // Por ejemplo, puedes utilizar la biblioteca de escaneo de códigos de barras aquí
+
+    scannerTimeout.current = setTimeout(() => {
+      setScanningMessage('No se encontró ningún código de barras');
+      setIsScanning(false);
+    }, 5000); // Aquí puedes ajustar el tiempo límite de escaneo en milisegundos
   };
 
   const stopScanning = () => {
     setScanningMessage('No se está escaneando');
     setIsScanning(false);
-    // Lógica para detener el escaneo
+    clearTimeout(scannerTimeout.current);
   };
 
   return (
