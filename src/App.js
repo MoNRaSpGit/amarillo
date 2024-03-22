@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Quagga from 'quagga'; // Importa la biblioteca de escaneo de códigos de barras
 
 const BarcodeScanner = () => {
   const videoRef = useRef(null);
   const [scannedResult, setScannedResult] = useState('');
 
-  // Función para activar la cámara y comenzar el escaneo
-  const startScanner = () => {
+  useEffect(() => {
+    console.log('Initializing Quagga...');
     Quagga.init({
       inputStream: {
         name: "Live",
@@ -18,23 +18,33 @@ const BarcodeScanner = () => {
       }
     }, function (err) {
       if (err) {
-        console.error(err);
+        console.error('Quagga initialization error:', err);
         return;
       }
-      console.log("Initialization finished. Ready to start");
-      Quagga.start();
+      console.log('Quagga initialization finished. Ready to start scanning.');
     });
 
-    // Función para manejar el resultado del escaneo
-    Quagga.onDetected(data => {
-      setScannedResult(data.codeResult.code);
-      Quagga.stop();
-    });
+    return () => {
+      Quagga.stop(); // Detener Quagga cuando el componente se desmonte para liberar recursos
+    };
+  }, []);
+
+  // Función para activar la cámara y comenzar el escaneo
+  const startScanner = () => {
+    console.log('Starting scanner...');
+    Quagga.start();
   };
+
+  // Función para manejar el resultado del escaneo
+  Quagga.onDetected(data => {
+    console.log('Barcode detected:', data.codeResult.code);
+    setScannedResult(data.codeResult.code);
+    Quagga.stop();
+  });
 
   return (
     <div>
-      <h1>Barcode Scannerrrrrrr</h1>
+      <h1>Barcode Scanner V2</h1>
       <button onClick={startScanner}>Start Scanning</button>
       <p>Scanned Result: {scannedResult}</p>
       <div style={{ width: '100%', height: '300px', border: '1px solid black' }}>
