@@ -34,7 +34,7 @@ const BarcodeScanner = () => {
 
   return (
     <div>
-      <h1>Barcode Scannerrrr</h1>
+      <h1>Barcode Scannerrrrrrr</h1>
       <video ref={videoRef} />
       <button onClick={startScanner}>Start Scanning</button>
       <p>Scanned Result: {scannedResult}</p>
