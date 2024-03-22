@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/amarillo/static/css/main.e6c13ad2.css",
-    "main.js": "/amarillo/static/js/main.ef314f25.js",
+    "main.js": "/amarillo/static/js/main.2d8ee32b.js",
     "static/js/453.aeeba56c.chunk.js": "/amarillo/static/js/453.aeeba56c.chunk.js",
     "index.html": "/amarillo/index.html",
     "main.e6c13ad2.css.map": "/amarillo/static/css/main.e6c13ad2.css.map",
-    "main.ef314f25.js.map": "/amarillo/static/js/main.ef314f25.js.map",
+    "main.2d8ee32b.js.map": "/amarillo/static/js/main.2d8ee32b.js.map",
     "453.aeeba56c.chunk.js.map": "/amarillo/static/js/453.aeeba56c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.ef314f25.js"
+    "static/js/main.2d8ee32b.js"
   ]
 }
